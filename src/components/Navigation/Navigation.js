@@ -57,7 +57,7 @@ const Navigation = () => {
                   onClick={handleSignout}
                   style={{ marginLeft: "10px" }}
                 >
-                  Signout
+                  Logout
                 </Button>
               </>
             ) : (

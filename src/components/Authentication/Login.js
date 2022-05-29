@@ -140,10 +140,8 @@ const Login = () => {
             {loading ? "Logging in ..." : "Login"}
           </Button>
 
-          {/* Forgot Password  */}
-          <Link to="/forgetPassword" style={loginPath}>
-            <p>Forgot Password?</p>
-          </Link>
+        
+          
 
           {/* Sign Up */}
           <Link to="/register" style={loginPath}>

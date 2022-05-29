@@ -152,7 +152,7 @@ const Recommandation = () => {
                 onClick={givReco}
                 className={classes.btn}
               >
-                Recommandation
+                Recommendation
               </Button>
 
               {/* If data is still Not fetch the loading otherwise show data */}

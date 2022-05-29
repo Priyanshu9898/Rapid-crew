@@ -65,7 +65,7 @@ const Home = () => {
       </Grid>
 
       {/* header-2 */}
-      <Header header="Recommandation For You" />
+      <Header header="Recommendation For You" />
 
       {/* Get the catalogue of data */}
       <Box

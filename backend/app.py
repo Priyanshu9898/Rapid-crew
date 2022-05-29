@@ -36,7 +36,7 @@ men_popular = pickle.load(open('men_popular.pkl', 'rb'))
 # all popular products in women's category
 women_popular = pickle.load(open('women_popular.pkl', 'rb'))
 
-# all popular products in 
+# all popular products in
 popular_products = pickle.load(open('popular_products.pkl', 'rb'))
 
 
@@ -64,12 +64,14 @@ def feature_extraction(img_array, model):
 
     preprocessed_img = preprocess_input(expanded_img_array)
 
-    # Get the features of image 
+    # Get the features of image
     result = model.predict(expanded_img_array).flatten()
-    
+
     return result / norm(result)
 
 # Recommand sililar feature products
+
+
 def recommend(features, feature_list):
     neighbors = NearestNeighbors(
         n_neighbors=6, algorithm='brute', metric='euclidean')
@@ -80,34 +82,43 @@ def recommend(features, feature_list):
     return indices
 
 # Return all best selling products
+
+
 @app.route('/bestsellers', methods=['GET'])
 def get_data():
 
     return popular_products.to_json(orient='records')
 
 # return all best selling products in men's category
+
+
 @app.route('/menProducts', methods=['GET'])
 def get_men_data():
 
     return men_popular.to_json(orient='records')
 
 # return all best selling products in women's category
+
+
 @app.route('/womenProducts', methods=['GET'])
 def get_women_data():
     return women_popular.to_json(orient='records')
 
 # return all products data
+
+
 @app.route('/allProducts', methods=['GET'])
 def get_all_data():
     return myntra.to_json(orient='records')
 
 # Give similar products data based on title
+
+
 @app.route('/prod/<title>', methods=['GET'])
 def get_prod(title):
 
     # get the index of product through title
     index = indices[title]
-
 
     sig_cs = list(enumerate(sig[index]))
 
@@ -133,27 +144,28 @@ def get_recommand(title):
     return myntra.iloc[output].to_json(orient='records')
 
 # Return similar products based on image features
+
+
 @app.route('/imageData', methods=['GET', 'POST'])
 def get_image_data():
     img_data = request.get_json()
 
     # image is in base64 format: so need to remove first 22 characters
     img = img_data['data'][23:]
-    
+
     # Load the image from base64 format and resize it to (224 x 224) so that it can be fed to the model
     im = Image.open(BytesIO(base64.b64decode(img))).resize((224, 224))
-    
+
     # Convert image into array
     img_array = np.array(im)
     # print(img_array)
-    
+
     # Extract features from the image
     features = feature_extraction(img_array, model)
     print(features)
 
     # Get the similar products indices
     indices = recommend(features, embeddings)
-    
 
     return myntra.iloc[indices[0]].to_json(orient='records')
 
