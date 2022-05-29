@@ -1,0 +1,9 @@
+npm install react-router-dom
+npm install axios
+npm install @material-ui/core
+npm install react-bootstrap bootstrap
+npm install slick-carousel --save
+npm install react-slick --save
+npm install @mui/icons-material
+npm install @mui/material @emotion/react @emotion/styled
+npm install firebase
