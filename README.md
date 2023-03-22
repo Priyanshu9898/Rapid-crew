@@ -17,11 +17,32 @@ Dataset Link: https://www.kaggle.com/datasets/promptcloud/all-products-from-mynt
 Link to youtube demo: 
 
 
+## Goals of the project
 
+    The main goal of this project is to provide a personalized fashion recommendation system that can help users find fashion products that match their preferences. The system also aims to provide an interactive user interface that is easy to use and navigate.
 
+## Process
 
+    The first step in developing this project was to collect and prepare the dataset of 17000 Myntra products. Next, different machine learning algorithms such as popularity-based, collaborative filtering, hybrid, and ResNet-based feature extraction were trained using this dataset. Then, these algorithms and features were integrated into the Flask backend.
 
+    For the front-end, Reactjs and Bootstrap were used to create an interactive user interface. Firebase authentication was also integrated into the system to ensure secure user authentication.
 
+## Features
+
+    1. Image-based fashion recommendation: 
+    Users can upload images of fashion products they like, and the system will recommend similar products based on the ResNet-based feature extraction.
+
+    2. Different recommendation algorithms: 
+    The system uses different recommendation algorithms such as popularity-based, collaborative filtering, and hybrid to provide a variety of recommendations to users.
+
+    3. Personalized recommendations: 
+    The system provides personalized recommendations to users based on their preferences and past interactions with the website.
+
+    4. Secure authentication: 
+    Firebase authentication is used to ensure that only authorized users can access the website.
+
+    5. Interactive user interface: 
+    The system has an interactive user interface created using Reactjs and Bootstrap, making it easy for users to navigate and use the website.
 
 
 
