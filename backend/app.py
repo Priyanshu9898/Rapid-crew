@@ -13,7 +13,7 @@ import tensorflow
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.layers import GlobalMaxPooling2D
 from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input
-
+import gzip
 
 app = Flask(__name__)
 
@@ -22,7 +22,29 @@ app = Flask(__name__)
 myntra = pd.read_csv('myntra.csv')
 
 # Sig file which contains similarity between each product
-sig = pickle.load(open('sig.pkl', 'rb'))
+# sig = pickle.load(open('sig.pkl', 'rb'))
+# Load the .npz file
+# Load the compressed numpy array
+
+# Load the compressed numpy array
+with gzip.open('sig1.npy.gz', 'rb') as f:
+    sig1 = np.load(f)
+
+with gzip.open('sig2.npy.gz', 'rb') as f:
+    sig2 = np.load(f)
+
+with gzip.open('sig3.npy.gz', 'rb') as f:
+    sig3 = np.load(f)
+
+with gzip.open('sig4.npy.gz', 'rb') as f:
+    sig4 = np.load(f)
+
+print(sig1.shape, sig2.shape, sig3.shape, sig4.shape)
+
+# Merge arrays vertically
+sig = np.vstack((sig1, sig2, sig3, sig4))
+
+print(sig)
 
 # Indices to get product title
 indices = pickle.load(open('indices.pkl', 'rb'))
@@ -31,17 +53,20 @@ indices = pickle.load(open('indices.pkl', 'rb'))
 embeddings = np.array(pickle.load(open('embeddings.pkl', 'rb')))
 
 
+
 # all popular products in men's category
-men_popular = pickle.load(open('men_popular.pkl', 'rb'))
+# men_popular = pickle.load(open('men_popular.pkl', 'rb'))
+men_popular = pd.read_pickle(r'men_popular.pkl')
+
 # all popular products in women's category
-women_popular = pickle.load(open('women_popular.pkl', 'rb'))
+women_popular = pd.read_pickle(r'women_popular.pkl')
 
 # all popular products in
-popular_products = pickle.load(open('popular_products.pkl', 'rb'))
+popular_products = pd.read_pickle(r'popular_products.pkl')
 
 
-filtered_indices = np.array(pickle.load(open('filtered_indices.pkl', 'rb')))
-
+filtered_indices = pd.read_pickle(r'filtered_indices.pkl')
+filtered_indices = np.array(filtered_indices)
 
 # resnet model to train uploaded images
 model = ResNet50(weights='imagenet', include_top=False,
@@ -82,8 +107,6 @@ def recommend(features, feature_list):
     return indices
 
 # Return all best selling products
-
-
 @app.route('/bestsellers', methods=['GET'])
 def get_data():
 
@@ -171,4 +194,4 @@ def get_image_data():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
