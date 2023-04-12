@@ -2,6 +2,6 @@ flask
 numpy
 pandas
 pillow
-sklearn
+scikit-learn
 python-dotenv
 tensorflow
