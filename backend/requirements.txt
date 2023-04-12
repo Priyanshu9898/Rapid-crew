@@ -1,7 +1,7 @@
-flask
+Flask
 numpy
 pandas
 pillow
-scikit-learn
 python-dotenv
 tensorflow
+scikit-learn
