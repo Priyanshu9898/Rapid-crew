@@ -15,7 +15,7 @@ from tensorflow.keras.layers import GlobalMaxPooling2D
 from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input
 import gzip
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 
 # Load Myntra Dataset
@@ -39,12 +39,12 @@ with gzip.open('sig3.npy.gz', 'rb') as f:
 with gzip.open('sig4.npy.gz', 'rb') as f:
     sig4 = np.load(f)
 
-print(sig1.shape, sig2.shape, sig3.shape, sig4.shape)
+# print(sig1.shape, sig2.shape, sig3.shape, sig4.shape)
 
 # Merge arrays vertically
 sig = np.vstack((sig1, sig2, sig3, sig4))
 
-print(sig)
+# print(sig)
 
 # Indices to get product title
 indices = pickle.load(open('indices.pkl', 'rb'))
@@ -78,7 +78,7 @@ model = tensorflow.keras.Sequential([
     GlobalMaxPooling2D()
 ])
 
-print(model.summary())
+# print(model.summary())
 
 
 # function to extract features from image
@@ -107,7 +107,7 @@ def recommend(features, feature_list):
     return indices
 
 # Return all best selling products
-@app.route('/bestsellers', methods=['GET'])
+@application.route('/bestsellers', methods=['GET'])
 def get_data():
 
     return popular_products.to_json(orient='records')
@@ -115,7 +115,7 @@ def get_data():
 # return all best selling products in men's category
 
 
-@app.route('/menProducts', methods=['GET'])
+@application.route('/menProducts', methods=['GET'])
 def get_men_data():
 
     return men_popular.to_json(orient='records')
@@ -123,21 +123,21 @@ def get_men_data():
 # return all best selling products in women's category
 
 
-@app.route('/womenProducts', methods=['GET'])
+@application.route('/womenProducts', methods=['GET'])
 def get_women_data():
     return women_popular.to_json(orient='records')
 
 # return all products data
 
 
-@app.route('/allProducts', methods=['GET'])
+@application.route('/allProducts', methods=['GET'])
 def get_all_data():
     return myntra.to_json(orient='records')
 
 # Give similar products data based on title
 
 
-@app.route('/prod/<title>', methods=['GET'])
+@application.route('/prod/<title>', methods=['GET'])
 def get_prod(title):
 
     # get the index of product through title
@@ -157,7 +157,7 @@ def get_prod(title):
 
 
 # Give buying recommandation of products based on title
-@app.route('/recommand/<title>', methods=['GET'])
+@application.route('/recommand/<title>', methods=['GET'])
 def get_recommand(title):
 
     index = np.where(myntra['title'] == title)[0][0]
@@ -169,7 +169,7 @@ def get_recommand(title):
 # Return similar products based on image features
 
 
-@app.route('/imageData', methods=['GET', 'POST'])
+@application.route('/imageData', methods=['GET', 'POST'])
 def get_image_data():
     img_data = request.get_json()
 
@@ -185,7 +185,7 @@ def get_image_data():
 
     # Extract features from the image
     features = feature_extraction(img_array, model)
-    print(features)
+    # print(features)
 
     # Get the similar products indices
     indices = recommend(features, embeddings)
@@ -194,4 +194,4 @@ def get_image_data():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run()
